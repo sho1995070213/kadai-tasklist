@@ -8,11 +8,21 @@
         
         <div class="collapse navbar-collapse" id="nav-bar">
             <ul class="navbar-nav mr-auto"></ul>
-            <ul class="nav navbar-nav navbar-right">
-                {{--ユーザーの登録--}}
-                <li>{!! link_to_route('signup.get', 'Signup', [], ['class' => 'nav-link']) !!}</li>
-                {{--ログインページ--}}
-                <li><a href="#">Login</a></li>
+            <ul class="navbar-nav">
+                @if (Auth::check())
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}<a/>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            {{-- ログアウトのリンク --}}
+                            <li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li>
+                        </ul>
+                    </li>
+                @else
+                    {{-- ユーザ登録ページのリンク --}}
+                    <li class="nav-item">{!! link_to_route('signup.get', 'Signup',[], ['class' => 'nav-link']) !!}</li>
+                    {{-- ログインページのリンク --}}
+                    <li class="nav-item">{!! link_to_route('login', 'Login',[], ['class' => 'nav-link']) !!}</li>
+                @endif
             </ul>
         </div>
     </nav>
