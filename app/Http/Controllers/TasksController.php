@@ -124,12 +124,16 @@ class TasksController extends Controller
             'content' => 'required|max:255'
         ]);
        $task = Task::findOrFail($id);
-       $task -> status = $request->status;
-       $task->content = $request->content;
-       $task->user_id = Auth::id();
-       $task->save();
        
-       return redirect('/');
+       if (\Auth::id() === $task->user_id) {
+            $task -> status = $request->status;
+            $task->content = $request->content;
+            $task->user_id = Auth::id();
+            $task->save();
+       } else {
+            return redirect('/');
+       }
+     
     }
 
     /**
